@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Auxi from '../../../hoc/Auxi';
 import Button from '../../UI/Button/Button';
+import Spinner from '../../UI/Spinner/Spinner';
 
 class OrderSummary extends Component {
 
@@ -9,14 +10,18 @@ class OrderSummary extends Component {
     }
 
     render() {
-        const ingredientSymmary = Object.keys(this.props.ingredients).map((key) => {
-            return (
-                <li key={key}>
-                    <span style={{ textTransform: 'capitalize' }}>{key}
-                    </span> : {this.props.ingredients[key]}
-                </li>
-            );
-        });
+        let ingredientSymmary = <Spinner />;
+
+        if (this.props.ingredients) {
+            ingredientSymmary = Object.keys(this.props.ingredients).map((key) => {
+                return (
+                    <li key={key}>
+                        <span style={{ textTransform: 'capitalize' }}>{key}
+                        </span> : {this.props.ingredients[key]}
+                    </li>
+                );
+            });
+        }
 
         return (
             <Auxi>
