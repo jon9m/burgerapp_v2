@@ -91,26 +91,16 @@ class BurgerBuidler extends Component {
     }
 
     onContinue = () => {
-        this.setState({
-            loading: true
-        });
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer: {
-                name: 'jon',
-                address: {
-                    street: 'main'
-                }
-            },
-            deliveryMethod: 'fastest'
+        const queryparams = [];
+        for (let i in this.state.ingredients) {
+            queryparams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
         }
-        axios.post('orders.json', order).then(response => {
-            this.setState({ loading: false, purchasing: false });
-            console.log(response);
-        }).catch(err => {
-            this.setState({ loading: false, purchasing: false });
-            console.log(err);
+        queryparams.push('price=' + this.state.totalPrice);
+        const queryString = queryparams.join('&');
+
+        this.props.history.push({
+            pathname: '/checkout',
+            search: '?' + queryString
         });
     }
 
